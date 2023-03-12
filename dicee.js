@@ -5,6 +5,16 @@
  *
  ***/
 
+
+
+
+
+/** CONFIG **/
+const cfg = {
+    "ROOT": "/",
+    "IMG_FOLDER": "images" 
+};
+
 document.querySelector("h1#start").addEventListener("click", play);
 
 
@@ -15,20 +25,28 @@ document.querySelector("h1#start").addEventListener("click", play);
  */
 function play() {
     var 
-        i, j = 1, t,  // counters and timeout
+        i, j = 1, t,        // counters and timeout
         numOfPlayers = document.querySelectorAll(".dice").length,
         h1 = document.querySelector("h1#start"), 
+        winClass,           // .winner or .loser class
         win, winText, 
         len,
         scores = [];        // array of all the scores;
 
     // check argument if valid and/or set default value to 2 players
     numOfPlayers = (numOfPlayers && typeof(numOfPlayers) === "integer") ? numOfPlayers : 2;
-    
+
+    // reset winner and loser classes if not first roll
+    document.querySelectorAll(".dice").forEach( (el) => { 
+        el.classList.remove("winner"); 
+        el.classList.remove("loser"); 
+    } );
+
     // start animation
-    t = setInterval(function() {
+    t = setInterval(function() {        
+
         // ROLLING !! 
-        h1.innerHTML = "Rolling!";
+        h1.textContent = "Rolling!";
 
         // throw dice for each player
         for (i=1; i<=numOfPlayers; i++) {
@@ -43,8 +61,14 @@ function play() {
             // Display winner
             len = scores.length;
             win = whoWins(scores.slice(len-2, len));
-            h1.innerHTML = (win === 0) ? "Draw!" : "Player " + win + " wins!";
+            h1.textContent = (win === 0) ? "Draw!" : "Player " + win + " wins!";
 
+            if (win !== 0) {
+                for (i=1; i<=numOfPlayers; i++) {
+                    winClass = (i === win) ? "winner" : "loser";
+                    document.querySelector(".p" + i).classList.add(winClass);
+                }
+            }
         }
     }, 50);
 
@@ -76,7 +100,7 @@ function setImage(player, score) {
     if (player && score) {
         if (typeof(player) === "number" && typeof(score) === "number") {
             className = "img" + player;
-            img = "images/dice" + score + ".png";
+            img = cfg.IMG_FOLDER + "/dice" + score + ".png";
 
             // change image
             document.querySelector("." + className).setAttribute("src", img);  
@@ -101,7 +125,6 @@ function myRandom(sides) {
 
     // creates a random integer
     score = Math.floor(Math.random()*(sides) + 1);
-    // console.log("*** myRandom(): score = " + score);
 
     return score;
 }

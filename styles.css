@@ -1,5 +1,5 @@
 .container {
-  width: 70%;
+  width: 80%;
   margin: auto;
   text-align: center;
 }
@@ -20,9 +20,10 @@ h1 {
   font-family: 'Lobster', cursive;
   font-weight: bold;
   text-shadow: 5px 0 #232931;
-  font-size: 8rem;
+  font-size: 5rem;
   color: #4ECCA3;
-  width: 800px;
+  width: 50%;
+  min-width: 280px;
   border-radius: 10px;
 }
 
@@ -48,5 +49,13 @@ footer {
   color: #EEEEEE;
   text-align: center;
   font-family: 'Indie Flower', cursive;
+}
 
+.winner {
+  opacity: 1;
+  font-weight: bold;
+}
+.loser {
+  opacity: 0.3;
+  font-weight: normal;
 }
